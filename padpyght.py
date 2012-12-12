@@ -41,12 +41,18 @@ class ButtonImage:
 	def __init__(self, screen, bg, position, size, file_push, file_free=None):
 		self.file_push = pygame.image.load('{}/{}'.format(prefix, file_push))
 		self.position = tuple(int(x) for x in position.split(','))
-		#self.size = tuple(int(x) for x in size.split(','))
-		#self.rect = pygame.Rect(self.position, self.size)
+		self.size = tuple(int(x) for x in size.split(','))
+		self.file_push = self.file_push.subsurface(pygame.Rect((0,0), self.size))
 		self.rect = self.file_push.get_rect(center=self.position)
-		self.target = screen.subsurface(self.rect)
+		try:
+			self.target = screen.subsurface(self.rect)
+		except ValueError:
+			print self.rect
+			print screen.get_rect()
+			raise SystemExit
 		if file_free:
 			self.file_free = pygame.image.load('{}/{}'.format(prefix, file_free))
+			self.release()
 		else:
 			self.file_free = bg.subsurface(self.rect).copy()
 		self.pressed = False
@@ -117,7 +123,10 @@ def main(argv):
 
 	data = dict(cfg.items('General'))
 	winsize = (int(data['width']), int(data['height']))
-	bg = pygame.image.load('{}/{}'.format(prefix, data['file_background']))
+	try:
+		bg = pygame.image.load('{}/{}'.format(prefix, data['file_background']))
+	except pygame.error:
+		bg = pygame.Surface(winsize)
 	screen = FrameBuffer(winsize, bg.get_size(),
 						 scale_method='pixelperfect', scale_smooth=int(data.get('aa', 1)))
 	screen.fill(tuple(int(x) for x in data['backgroundcolor'].split(',')))
