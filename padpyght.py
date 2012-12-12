@@ -1,4 +1,7 @@
-﻿import pygame
+﻿# A simple open source padlight clone, with custom extensions for analog sticks and triggers.
+# By Darren Alton
+
+import pygame
 from ConfigParser import ConfigParser
 
 from frame_buffer import FrameBuffer
@@ -44,12 +47,7 @@ class ButtonImage:
 		self.size = tuple(int(x) for x in size.split(','))
 		self.file_push = self.file_push.subsurface(pygame.Rect((0,0), self.size))
 		self.rect = self.file_push.get_rect(center=self.position)
-		try:
-			self.target = screen.subsurface(self.rect)
-		except ValueError:
-			print self.rect
-			print screen.get_rect()
-			raise SystemExit
+		self.target = screen.subsurface(self.rect)
 		if file_free:
 			self.file_free = pygame.image.load('{}/{}'.format(prefix, file_free))
 			self.release()
