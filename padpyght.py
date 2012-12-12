@@ -11,19 +11,26 @@ prefix = 'gamecube/'
 joy = None
 
 class StickImage:
-	def __init__(self, screen, bg, position, size, file_stick, axes, radius):
+	def __init__(self, screen, bg, position, size, file_stick, axes, radius, button=None, file_push=None):
 		self.file_stick = pygame.image.load('{}/{}'.format(prefix, file_stick))
 		self.position = tuple(int(x) for x in position.split(','))
 		#self.size = tuple(int(x) for x in size.split(','))
 		self.radius = int(radius)
 		self.rect = self.file_stick.get_rect(center=self.position)
 		self.domainrect = self.rect.inflate(self.radius*2, self.radius*2)
-		self.file_free = bg.subsurface(self.domainrect).copy()
+		self.file_free = screen.subsurface(self.domainrect).copy()
 		self.axes = tuple(int(x) for x in axes.split(','))
 		self.jx = joy.get_axis(self.axes[0])
 		self.jy = joy.get_axis(self.axes[1])
 		self.target = screen
 		self.dirty = True
+		self.button = None
+		self.file_push = None
+		if button and file_push:
+			self.button = int(button)
+			self.file_push = pygame.image.load('{}/{}'.format(prefix, file_push))
+		self.file = self.file_stick
+		
 
 	def move(self, axis, val):
 		if axis == self.axes[0]:
@@ -32,11 +39,20 @@ class StickImage:
 			self.jy = val
 		self.dirty = True
 
+	def press(self):
+		if self.file_push:
+			self.file = self.file_push
+			self.dirty = True
+
+	def release(self):
+		self.file = self.file_stick
+		self.dirty = True
+
 	def draw(self):
 		if self.dirty:
 			pos = self.rect.move(int(self.jx*self.radius), int(self.jy*self.radius))
 			self.target.blit(self.file_free, self.domainrect)
-			self.target.blit(self.file_stick, pos)
+			self.target.blit(self.file, pos)
 			self.dirty = False
 
 class ButtonImage:
@@ -145,6 +161,8 @@ def main(argv):
 			tmpobj = StickImage(screen, bg, **data)
 			for n in tmpobj.axes:
 				axis_listeners[n].add(tmpobj)
+			if tmpobj.file_push:
+				btn_listeners[int(tmpobj.button)-1] = tmpobj
 		elif sec[:6] == 'Button':
 			n = int(sec[6:])-1
 			btn_listeners[n] = ButtonImage(screen, bg, **data)
