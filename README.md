@@ -8,7 +8,7 @@ inconsistencies to iron out (for example, 0- vs. 1- indexing the buttons and axe
 Usage
 -----
 Command line:
-  python2 padpyght.py [skin folder] [joystick number]
+  `python2 padpyght.py [skin folder] [joystick number]`
 
 If you have [PGU](http://code.google.com/p/pgu/) installed, simply run padpyght.py with no arguments to start a GUI,
 which will let you choose a joystick and skin to use from lists.
