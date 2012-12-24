@@ -75,7 +75,12 @@ class StickImage(ButtonImage):
 		self.dirty = True
 
 	def draw(self):
-		self.position = self.rect.move(int(self.jx*self.radius), int(self.jy*self.radius))
+		x,y = self.jx, self.jy
+		dist = (x*x + y*y)**.5
+		if dist > 1.0:
+			x /= dist
+			y /= dist
+		self.position = self.rect.move(int(x*self.radius), int(y*self.radius))
 		ButtonImage.draw(self)
 
 class TriggerImage(ButtonImage):
@@ -172,7 +177,9 @@ def main(skin, joyindex):
 					dirtyscreen = True
 			elif e.type == pygame.JOYHATMOTION:
 				x,y = e.value
-				for d in dpad_buttons.itervalues(): d.release()
+				for d in dpad_buttons.itervalues():
+					d.release()
+					d.draw()
 				if   y > 0: dpad_buttons['Up'].press()
 				elif y < 0: dpad_buttons['Down'].press()
 				if   x < 0: dpad_buttons['Left'].press()
