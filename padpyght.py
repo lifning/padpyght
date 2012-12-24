@@ -206,6 +206,7 @@ def main(skin, joyindex):
 
 if __name__ == "__main__":
 	try:
+		if len(sys.argv) > 1: raise ImportError # hack
 		from pgu import gui
 	except ImportError:
 		skin = 'gamecube'
