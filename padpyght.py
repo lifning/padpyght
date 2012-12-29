@@ -1,4 +1,4 @@
-﻿# A simple open source padlight clone, with custom extensions for analog sticks and triggers.
+# A simple open source padlight clone, with custom extensions for analog sticks and triggers.
 # By Darren Alton
 
 import pygame
