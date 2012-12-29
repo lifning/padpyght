@@ -6,12 +6,15 @@ class FrameBuffer(Surface):
     instance = None
 
     def __init__(self, disp_res, fb_res, flags=HWSURFACE|DOUBLEBUF|RESIZABLE,
-                 fps=60, scale_type='pixelperfect', scale_smooth=False):
+                 fps=60, scale_type='pixelperfect', scale_smooth=False, bgcolor=(0,0,0)):
         screen = display.set_mode(disp_res, flags)
         Surface.__init__(self, fb_res, flags)
+
         self._scale_type = scale_type
         self._scale_function = transform.smoothscale if scale_smooth else transform.scale
+        self.bgcolor = bgcolor
         self.compute_target_subsurf()
+ 
         self._update_rects = []
 
         self._clock = time.Clock()
@@ -24,6 +27,7 @@ class FrameBuffer(Surface):
 
     def compute_target_subsurf(self):
         screen = display.get_surface()
+        screen.fill(self.bgcolor)
         self_rect = self.get_rect()
         disp_rect = screen.get_rect()
 

@@ -126,9 +126,11 @@ def main(skin, joyindex):
 		bg = pygame.image.load('{}/{}'.format(skin, data['file_background']))
 	except pygame.error:
 		bg = pygame.Surface(winsize)
+	bgcolor = tuple(int(x) for x in data['backgroundcolor'].split(','))
 	screen = FrameBuffer(winsize, bg.get_size(),
-						 scale_type='pixelperfect', scale_smooth=int(data.get('aa', 1)))
-	screen.fill(tuple(int(x) for x in data['backgroundcolor'].split(',')))
+						 scale_type='pixelperfect', scale_smooth=int(data.get('aa', 1)),
+						 bgcolor=bgcolor)
+	screen.fill(bgcolor)
 	screen.blit(bg, (0,0))
 
 	pygame.joystick.init()
