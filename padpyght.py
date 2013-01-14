@@ -165,10 +165,19 @@ def main(skin, joyindex):
 
 	dirtyscreen = True
 	running = True
+	scale = 1.0
 	while running:
 		for e in pygame.event.get():
 			if e.type == pygame.VIDEORESIZE:
 				pygame.display.set_mode(e.size, pygame.display.get_surface().get_flags())
+				screen.compute_target_subsurf()
+			elif e.type == pygame.KEYDOWN:
+				if e.key == pygame.K_KP_MINUS:  scale -= 0.1
+				elif e.key == pygame.K_KP_PLUS: scale += 0.1
+				scale = max(0.1, scale)
+				w,h = winsize
+				pygame.display.set_mode((int(w*scale), int(h*scale)),
+										pygame.display.get_surface().get_flags())
 				screen.compute_target_subsurf()
 			elif e.type == pygame.QUIT:
 				running = False
