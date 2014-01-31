@@ -148,15 +148,27 @@ def main(skin, joyindex):
 		elif sec[:5] == 'Stick':
 			tmpobj = StickImage(skin, joy, screen, bg, **data)
 			for n in tmpobj.axes:
-				axis_listeners[n].add(tmpobj)
+				if n < len(axis_listeners):
+					axis_listeners[n].add(tmpobj)
+				else:
+					print 'warning: gamepad does not have Stick axis', n
 			if tmpobj.button is not None:
-				btn_listeners[int(tmpobj.button)-1].add(tmpobj)
+				if tmpobj.button <= len(btn_listeners):
+					btn_listeners[int(tmpobj.button)-1].add(tmpobj)
+				else:
+					print 'warning: gamepad does not have Stick button', tmpobj.button
 		elif sec[:6] == 'Button':
 			n = int(sec[6:])-1
-			btn_listeners[n].add(ButtonImage(skin, joy, screen, bg, **data))
+			if n < len(btn_listeners):
+				btn_listeners[n].add(ButtonImage(skin, joy, screen, bg, **data))
+			else:
+				print 'warning: gamepad does not have Button', n
 		elif sec[:7] == 'Trigger':
-			tmpobj = TriggerImage(skin, joy, screen, bg, **data)
-			axis_listeners[tmpobj.axis].add(tmpobj)
+			if tmpobj.axis < len(axis_listeners):
+				tmpobj = TriggerImage(skin, joy, screen, bg, **data)
+				axis_listeners[tmpobj.axis].add(tmpobj)
+			else:
+				print 'warning: gamepad does not have Trigger axis', tmpobj.axis
 		elif sec != 'General':
 			print sec, data
 
