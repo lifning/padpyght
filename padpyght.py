@@ -4,6 +4,7 @@
 import pygame
 import itertools
 import sys, os
+import glob
 from ConfigParser import ConfigParser
 
 from frame_buffer import FrameBuffer
@@ -18,10 +19,12 @@ class ButtonImage:
 		self.target = screen
 		self.image_push = None
 		self.image_free = None
-		try:   self.image_push = pygame.image.load('{}/{}'.format(skin, file_push))
-		except pygame.error: pass
-		try:   self.image_free = pygame.image.load('{}/{}'.format(skin, file_free))
-		except pygame.error: pass
+		if file_push is not None:
+			try:   self.image_push = pygame.image.load(os.path.join(skin, file_push))
+			except pygame.error: pass
+		if file_free is not None:
+			try:   self.image_free = pygame.image.load(os.path.join(skin, file_free))
+			except pygame.error: pass
 		self.image = self.image_free or self.image_push
 		if self.image is None:  raise ValueError
 		self.position = tuple(int(x) for x in position.split(','))
@@ -118,12 +121,15 @@ class TriggerImage(ButtonImage):
 
 def main(skin, joyindex):
 	cfg = ConfigParser()
-	cfg.read('{}/skin.ini'.format(skin))
+	if os.path.isdir(skin):
+		skin = os.path.join(skin, 'skin.ini')
+	cfg.read(skin)
+	skin = os.path.dirname(skin)
 
 	data = dict(cfg.items('General'))
 	winsize = (int(data['width']), int(data['height']))
 	try:
-		bg = pygame.image.load('{}/{}'.format(skin, data['file_background']))
+		bg = pygame.image.load(os.path.join(skin, data['file_background']))
 	except pygame.error:
 		bg = pygame.Surface(winsize)
 	bgcolor = tuple(int(x) for x in data['backgroundcolor'].split(','))
@@ -164,8 +170,8 @@ def main(skin, joyindex):
 			else:
 				print 'warning: gamepad does not have Button', n
 		elif sec[:7] == 'Trigger':
+			tmpobj = TriggerImage(skin, joy, screen, bg, **data)
 			if tmpobj.axis < len(axis_listeners):
-				tmpobj = TriggerImage(skin, joy, screen, bg, **data)
 				axis_listeners[tmpobj.axis].add(tmpobj)
 			else:
 				print 'warning: gamepad does not have Trigger axis', tmpobj.axis
@@ -253,9 +259,14 @@ if __name__ == "__main__":
 	for i in xrange(pygame.joystick.get_count()):
 		joy_list.add('{}: {}'.format(i, pygame.joystick.Joystick(i).get_name()), value=i)
 
-	for fname in os.listdir('.'):
-		if os.path.exists('{}/skin.ini'.format(fname)):
-			skin_list.add(fname, value=fname)
+	for dirname in os.listdir('.'):
+		default_skin = os.path.join(dirname, 'skin.ini')
+		if os.path.exists(default_skin):
+			skin_list.add(dirname, value=default_skin)
+		for alternate_skin in glob.iglob(os.path.join(dirname, 'skin-*.ini')):
+			start = alternate_skin.rfind('skin-') + 5
+			altname = alternate_skin[start:-4]
+			skin_list.add('{} ({})'.format(dirname, altname), value=alternate_skin)
 
 	def main_wrapper():
 		if skin_list.value is None or joy_list.value is None: return
