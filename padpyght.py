@@ -203,25 +203,25 @@ def main(skin, joyindex):
 			elif e.type == pygame.JOYAXISMOTION:
 				for al in axis_listeners[e.axis]:
 					al.move(e.axis, e.value)
-					dirtyscreen = True
+				dirtyscreen = True
 			elif e.type == pygame.JOYHATMOTION:
 				x,y = e.value
 				for d in dpad_buttons.itervalues():
 					d.release()
 					d.draw()
-				if   y > 0: dpad_buttons['Up'].press()
-				elif y < 0: dpad_buttons['Down'].press()
-				if   x < 0: dpad_buttons['Left'].press()
-				elif x > 0: dpad_buttons['Right'].press()
+				if   y > 0 and 'Up'    in dpad_buttons: dpad_buttons['Up'].press()
+				elif y < 0 and 'Down'  in dpad_buttons: dpad_buttons['Down'].press()
+				if   x < 0 and 'Left'  in dpad_buttons: dpad_buttons['Left'].press()
+				elif x > 0 and 'Right' in dpad_buttons: dpad_buttons['Right'].press()
 				dirtyscreen = True
 			elif e.type == pygame.JOYBUTTONUP and btn_listeners[e.button]:
 				for bl in btn_listeners[e.button]:
 					bl.release()
-					dirtyscreen = True
+				dirtyscreen = True
 			elif e.type == pygame.JOYBUTTONDOWN and btn_listeners[e.button]:
 				for bl in btn_listeners[e.button]:
 					bl.press()
-					dirtyscreen = True
+				dirtyscreen = True
 		for img_set in itertools.chain(axis_listeners, btn_listeners):
 			for img in img_set:
 				img.draw()
