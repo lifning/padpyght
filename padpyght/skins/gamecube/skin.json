@@ -1,0 +1,74 @@
+{
+  "general": {
+    "background": "base",
+    "background-color": [16, 20, 24],
+    "size": [1280, 908],
+    "anti-aliasing": true
+  },
+  "sticks": {
+    "control-stick": {
+      "position": [237, 337],
+      "size": [188, 188],
+      "radius": 55
+    },
+    "c-stick": {
+      "position": [857, 637],
+      "size": [123, 123],
+      "radius": 42
+    }
+  },
+  "triggers": {
+    "l-trigger": {
+      "position": [222, 85],
+      "size": [192, 101],
+      "depth": 55
+    },
+    "r-trigger": {
+      "position": [1052, 85],
+      "size": [192, 101],
+      "depth": 55
+    }
+  },
+  "buttons": {
+    "dpad-up": {
+      "position": [424, 573],
+      "size": [65, 65]
+    },
+    "dpad-down": {
+      "position": [424, 692],
+      "size": [65, 65]
+    },
+    "dpad-left": {
+      "position": [364, 632],
+      "size": [65, 65]
+    },
+    "dpad-right": {
+      "position": [484, 632],
+      "size": [65, 65]
+    },
+    "a-button": {
+      "position": [1042, 336],
+      "size": [155, 155]
+    },
+    "b-button": {
+      "position": [903, 412],
+      "size": [96, 96]
+    },
+    "x-button": {
+      "position": [1189, 302],
+      "size": [83, 137]
+    },
+    "y-button": {
+      "position": [1014, 193],
+      "size": [137, 83]
+    },
+    "z-button": {
+      "position": [1048, 91],
+      "size": [203, 84]
+    },
+    "start-button": {
+      "position": [641, 342],
+      "size": [66, 65]
+    }
+  }
+}

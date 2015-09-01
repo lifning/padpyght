@@ -1,0 +1,137 @@
+{
+  "buttons": {
+    "A": {
+      "position": [
+        88, 
+        26
+      ], 
+      "size": [
+        7, 
+        7
+      ]
+    }, 
+    "B": {
+      "position": [
+        80, 
+        34
+      ], 
+      "size": [
+        7, 
+        7
+      ]
+    }, 
+    "DOWN": {
+      "position": [
+        20, 
+        32
+      ], 
+      "size": [
+        7, 
+        8
+      ]
+    }, 
+    "L": {
+      "position": [
+        23, 
+        4
+      ], 
+      "size": [
+        28, 
+        8
+      ]
+    }, 
+    "LEFT": {
+      "position": [
+        15, 
+        26
+      ], 
+      "size": [
+        8, 
+        7
+      ]
+    }, 
+    "R": {
+      "position": [
+        78, 
+        4
+      ], 
+      "size": [
+        28, 
+        8
+      ]
+    }, 
+    "RIGHT": {
+      "position": [
+        26, 
+        26
+      ], 
+      "size": [
+        8, 
+        7
+      ]
+    }, 
+    "UP": {
+      "position": [
+        20, 
+        21
+      ], 
+      "size": [
+        7, 
+        8
+      ]
+    }, 
+    "X": {
+      "position": [
+        80, 
+        18
+      ], 
+      "size": [
+        7, 
+        7
+      ]
+    }, 
+    "Y": {
+      "position": [
+        72, 
+        26
+      ], 
+      "size": [
+        7, 
+        7
+      ]
+    }, 
+    "select": {
+      "position": [
+        42, 
+        30
+      ], 
+      "size": [
+        8, 
+        8
+      ]
+    }, 
+    "start": {
+      "position": [
+        54, 
+        30
+      ], 
+      "size": [
+        8, 
+        8
+      ]
+    }
+  }, 
+  "general": {
+    "anti-aliasing": false, 
+    "background": "back", 
+    "background-color": [
+      0, 
+      0, 
+      0
+    ], 
+    "size": [
+      101, 
+      49
+    ]
+  }
+}
