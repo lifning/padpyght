@@ -1,27 +1,28 @@
-from pygame import Surface, Rect, display, time, transform
-from pygame import DOUBLEBUF, HWSURFACE, RESIZABLE
+import pygame
 
 
-class FrameBuffer(Surface):
+class FrameBuffer(pygame.Surface):
     instance = None
 
     def __init__(self, display_res, fb_res,
-                 flags=HWSURFACE | DOUBLEBUF | RESIZABLE,
+                 flags=pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE,
                  fps=60, scale_type='pixelperfect', scale_smooth=False,
-                 bg_color=(0, 0, 0)):
-        display.set_mode(display_res, flags)
-        Surface.__init__(self, fb_res, flags)
+                 background_color=(0, 0, 0)):
+        pygame.display.set_mode(display_res, flags)
+        pygame.Surface.__init__(self, fb_res, flags)
 
+        self._base_size = display_res
+        self._scale_factor = 1.0
         self._scale_type = scale_type
-        self._scale_function = transform.scale
+        self._scale_function = pygame.transform.scale
         if scale_smooth:
-            self._scale_function = transform.smoothscale
-        self.bg_color = bg_color
+            self._scale_function = pygame.transform.smoothscale
+        self.background_color = background_color
         self._target = self._compute_target_subsurface()
 
         self._update_rectangles = []
 
-        self._clock = time.Clock()
+        self._clock = pygame.time.Clock()
         self._fps = fps
         self._lag = 0
         self._t_delta = 0
@@ -29,13 +30,30 @@ class FrameBuffer(Surface):
         if FrameBuffer.instance is None:
             FrameBuffer.instance = self
 
+    def handle_event(self, event):
+        if event.type == pygame.VIDEORESIZE:
+            flags = pygame.display.get_surface().get_flags()
+            pygame.display.set_mode(event.size, flags)
+            self.recompute_target_subsurface()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_KP_MINUS:
+                self._scale_factor -= 0.1
+            elif event.key == pygame.K_KP_PLUS:
+                self._scale_factor += 0.1
+            self._scale_factor = max(0.1, self._scale_factor)
+            w, h = self._base_size
+            flags = pygame.display.get_surface().get_flags()
+            pygame.display.set_mode((int(w * self._scale_factor),
+                                    int(h * self._scale_factor)), flags)
+            self.recompute_target_subsurface()
+
     def recompute_target_subsurface(self):
         self._target = self._compute_target_subsurface()
         self.flip(delay=False)
 
     def _compute_target_subsurface(self):
-        screen = display.get_surface()
-        screen.fill(self.bg_color)
+        screen = pygame.display.get_surface()
+        screen.fill(self.background_color)
         self_rect = self.get_rect()
         display_rect = screen.get_rect()
 
@@ -46,7 +64,7 @@ class FrameBuffer(Surface):
                 factor = int(factor)
             w = int(factor * self_rect.w)
             h = int(factor * self_rect.h)
-            r = Rect(0, 0, w, h)
+            r = pygame.Rect(0, 0, w, h)
             r.center = display_rect.center
             target = screen.subsurface(r)
         elif self._scale_type == 'scale2x':
@@ -58,7 +76,7 @@ class FrameBuffer(Surface):
             factor = (1 << pow2)
             w = factor * self_rect.w
             h = factor * self_rect.h
-            r = Rect(0, 0, w, h)
+            r = pygame.Rect(0, 0, w, h)
             r.center = display_rect.center
             if display_rect.contains(r):
                 target = screen.subsurface(r)
@@ -77,20 +95,20 @@ class FrameBuffer(Surface):
         return target
 
     def blit(self, *args, **kwargs):
-        self._update_rectangles.append(Surface.blit(self, *args, **kwargs))
+        self._update_rectangles.append(pygame.Surface.blit(self, *args, **kwargs))
 
     def flip(self, delay=True):
         if self._scale_type == 'scale2x':
             tmp_surf = self
             target_width = self._target.get_width()
             while tmp_surf.get_width() < target_width:
-                tmp_surf = transform.scale2x(tmp_surf)
+                tmp_surf = pygame.transform.scale2x(tmp_surf)
             self._target.blit(tmp_surf, (0, 0))
         else:
             self._scale_function(self, self._target.get_size(), self._target)
         if delay:
-            self.limit_fps()
-        display.flip()
+            self.limit_fps(set_caption=False)
+        pygame.display.flip()
         self._update_rectangles = []
 
     def update(self):
@@ -102,7 +120,7 @@ class FrameBuffer(Surface):
             screen.blit(tmp_surf, wr)
             wr.inflate_ip(4, 4)
             window_rectangles.append(wr)
-        display.update(window_rectangles)
+        pygame.display.update(window_rectangles)
         self._update_rectangles = []
 
     def rect_fb_to_window(self, r):
@@ -114,7 +132,7 @@ class FrameBuffer(Surface):
         y = int((r.top * y_factor) + offset_y + 0.5)
         w = int(r.w * x_factor + 0.5)
         h = int(r.h * y_factor + 0.5)
-        return Rect(x, y, w, h)
+        return pygame.Rect(x, y, w, h)
 
     def rect_window_to_fb(self, r):
         x_factor = float(self._target.get_width()) / self.get_width()
@@ -125,7 +143,7 @@ class FrameBuffer(Surface):
         y = int((r.top - offset_y) / y_factor + 0.5)
         w = int(r.w / x_factor + 0.5)
         h = int(r.h / y_factor + 0.5)
-        return Rect(x, y, w, h)
+        return pygame.Rect(x, y, w, h)
 
     def limit_fps(self, set_caption=True):
         t_delta = self._clock.tick(self._fps)
@@ -150,7 +168,7 @@ class FrameBuffer(Surface):
                 self._fps *= 2
                 self._lag = 0
         if set_caption:
-            display.set_caption('{} fps, targeting {} (lag: {})'.format(
+            pygame.display.set_caption('{} fps, targeting {} (lag: {})'.format(
                 real_fps, self._fps, (self._lag + 5) // 10
             ))
         self._t_delta = t_delta
