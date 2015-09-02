@@ -18,6 +18,10 @@ it will immediately begin visualization as normal.
 
 Use + and - on the number pad to change the window size during visualization.
 
+NOTE
+----
+There are a few tutorials I've seen on the internet for how to use padpyght (thanks so much, by the way, if you've made one of these!), written/recorded before a major rewrite of this project occurred in August 2015.  If you're following one of these and you get lost, the pre-rewrite version may help you temporarily: https://github.com/lifning/padpyght/tree/legacy - but note that you'll be missing some of the newer features, such as interactive control mapping.
+
 TODO
 ----
 - Add trigger-clicks (i.e. Gamecube shoulders) and re-add stick-clicks
