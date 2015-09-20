@@ -59,8 +59,20 @@ for i in xrange(pygame.joystick.get_count()):
     name = pygame.joystick.Joystick(i).get_name()
     joy_list.add('{}: {}'.format(i, name), value=i)
 
-for dir_name in pkg_resources.resource_listdir('padpyght', 'skins'):
-    path = pkg_resources.resource_filename('padpyght', 'skins/%s' % dir_name)
+
+def list_skin_paths():
+    if getattr(sys, 'frozen', False):
+        base_dir = os.path.join(sys._MEIPASS, 'padpyght', 'skins')
+        for dir_name in os.listdir(base_dir):
+            path = os.path.join(base_dir, dir_name)
+            yield dir_name, path
+    else:
+        for dir_name in pkg_resources.resource_listdir('padpyght', 'skins'):
+            path = pkg_resources.resource_filename('padpyght',
+                                                   'skins/%s' % dir_name)
+            yield dir_name, path
+
+for dir_name, path in list_skin_paths():
     cfg = os.path.join(path, 'skin.json')
     if os.path.exists(cfg):
         skin_list.add(dir_name, value=dir_name)
