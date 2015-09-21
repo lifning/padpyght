@@ -1,0 +1,62 @@
+{
+  "general": {
+    "background": "base",
+    "background-color": [16, 20, 24],
+    "size": [760, 340],
+    "anti-aliasing": true
+  },
+  "triggers": {
+    "L": {
+      "position": [150, 35],
+      "size": [189, 56],
+      "depth": 16
+    },
+    "R": {
+      "position": [609, 35],
+      "size": [189, 56],
+      "depth": 16
+    }
+  },
+  "buttons": {
+    "d-up": {
+      "position": [152, 144],
+      "size": [45, 68]
+    },
+    "d-down": {
+      "position": [152, 211],
+      "size": [46, 69]
+    },
+    "d-left": {
+      "position": [118, 177],
+      "size": [68, 45]
+    },
+    "d-right": {
+      "position": [185, 177],
+      "size": [67, 45]
+    },
+    "A": {
+      "position": [669, 180],
+      "size": [50, 50]
+    },
+    "B": {
+      "position": [608, 242],
+      "size": [50, 50]
+    },
+    "X": {
+      "position": [596, 113],
+      "size": [50, 50]
+    },
+    "Y": {
+      "position": [535, 173],
+      "size": [50, 50]
+    },
+    "select": {
+      "position": [324, 204],
+      "size": [48, 49]
+    },
+    "start": {
+      "position": [410, 204],
+      "size": [50, 49]
+    }
+  }
+}
