@@ -7,6 +7,8 @@ a = Analysis(['start.py'],
 
 pgu_theme = Tree('/usr/share/pgu/themes/default', prefix='default')
 padpyght_skins = Tree('padpyght/skins', prefix='padpyght/skins')
+readme = [('README.md', 'README.md', 'DATA'),
+          ('COPYING', 'COPYING', 'DATA')]
 
 pyz = PYZ(a.pure)
 
@@ -26,6 +28,7 @@ coll = COLLECT(exe,
                a.datas,
                pgu_theme,
                padpyght_skins,
+               readme,
                strip=None,
                upx=True,
                name='padpyght-bin')
