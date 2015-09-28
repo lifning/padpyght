@@ -76,7 +76,15 @@ class PadMapper:
                 value = round(event.value)
                 if axis_result is None:
                     if resting_position[event.axis] is None:
-                        resting_position[event.axis] = value
+                        # HACK: workaround for 'digital axes' (such as d-pads)
+                        # not having in-between values near their resting pos
+                        if abs(round(event.value, 3)) == 1.0:
+                            resting_position[event.axis] = 0.0
+                            axis_lock = True
+                            axis_result = ['axis', int(event.axis),
+                                           diff(event.axis, value)]
+                        else:
+                            resting_position[event.axis] = value
                     elif resting_position[event.axis] != value:
                         axis_lock = True
                         axis_result = ['axis', int(event.axis),
