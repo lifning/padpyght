@@ -9,62 +9,76 @@
     "left-stick": {
       "position": [454, 491],
       "radius": 55,
-      "size": [177, 177]
+      "size": [177, 177],
+      "clickable": true
     },
     "right-stick": {
       "position": [824, 491],
       "radius": 55,
-      "size": [177, 177]
+      "size": [177, 177],
+      "clickable": true
+    }
+  },
+  "triggers": {
+    "trig-L2": {
+      "position": [260, 78],
+      "size": [222, 107],
+      "depth": 56
+    },
+    "trig-R2": {
+      "position": [1014, 78],
+      "size": [222, 107],
+      "depth": 56
     }
   },
   "buttons": {
     "btn-L1": {
-      "position": [261, 12],
-      "size": [144, 21]
+      "position": [261, 42],
+      "size": [144, 80]
     },
     "btn-R1": {
-      "position": [1014, 12],
-      "size": [144, 21]
-    }, 
+      "position": [1014, 42],
+      "size": [144, 80]
+    },
     "btn-circle": {
       "position": [1114, 297],
       "size": [92, 92]
-    }, 
+    },
     "btn-cross": {
       "position": [1020, 391],
       "size": [92, 92]
-    }, 
-    "btn-select": {
-      "position": [523, 317],
-      "size": [68, 42]
-    }, 
+    },
     "btn-square": {
       "position": [927, 297],
       "size": [92, 92]
-    }, 
-    "btn-start": {
-      "position": [746, 317],
-      "size": [68, 42]
-    }, 
+    },
     "btn-triangle": {
       "position": [1020, 204],
       "size": [92, 92]
-    }, 
+    },
     "dpad-down": {
       "position": [260, 371],
       "size": [67, 111]
-    }, 
+    },
     "dpad-left": {
       "position": [183, 293],
       "size": [111, 67]
-    }, 
+    },
     "dpad-right": {
       "position": [338, 294],
       "size": [111, 67]
-    }, 
+    },
     "dpad-up": {
       "position": [260, 216],
       "size": [67, 111]
+    },
+    "select": {
+      "position": [523, 317],
+      "size": [68, 42]
+    },
+    "start": {
+      "position": [746, 317],
+      "size": [68, 42]
     }
   }
 }

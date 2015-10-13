@@ -15,9 +15,10 @@ class ButtonConfig(object):
 
 
 class StickConfig(ButtonConfig):
-    def __init__(self, name, position, size, radius):
+    def __init__(self, name, position, size, radius, clickable=False):
         super(StickConfig, self).__init__(name, position, size)
         self.radius = int(radius)
+        self.clickable = clickable
 
 
 class TriggerConfig(ButtonConfig):

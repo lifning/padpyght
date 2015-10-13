@@ -9,12 +9,14 @@
     "left-stick": {
       "position": [114, 158],
       "radius": 25,
-      "size": [87, 87]
+      "size": [87, 87],
+      "clickable": true
     },
     "right-stick": {
       "position": [1168, 158],
       "radius": 25,
-      "size": [87, 87]
+      "size": [87, 87],
+      "clickable": true
     }
   },
   "buttons": {

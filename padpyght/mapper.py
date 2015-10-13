@@ -59,7 +59,7 @@ class PadMapper:
 
         return new_config
 
-    def get_next_joy_action(self, element):
+    def get_next_joy_action(self, element, event_filter=None):
         resting_position = [None] * self.js.get_numaxes()
 
         assert hasattr(element, 'push')
@@ -72,7 +72,9 @@ class PadMapper:
         final_result = None
         while final_result is None:
             event = pygame.event.poll()
-            if event.type == pygame.JOYAXISMOTION:
+            if event_filter and (event.type not in event_filter):
+                pass
+            elif event.type == pygame.JOYAXISMOTION:
                 value = round(event.value)
                 if axis_result is None:
                     if resting_position[event.axis] is None:
@@ -130,6 +132,12 @@ class PadMapper:
             result[direction] = self.get_next_joy_action(element)
             element.push(0)
         self.gfx.sticks[stick_name].reset()
+        if self.cfg.sticks[stick_name].clickable:
+            self.display_message('Click %s' % stick_name)
+            element = self.gfx.sticks[stick_name]
+            result['click'] = self.get_next_joy_action(element,
+                                                       [pygame.JOYBUTTONDOWN])
+            element.push(0)
         return result
 
     def request_trigger(self, trigger_name):
