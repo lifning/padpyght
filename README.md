@@ -47,7 +47,7 @@ If you don't want to use Wine (if you don't care about making Windows binaries, 
 ## TODO
 - Revise existing skins to make shoulder buttons more visible / visible at all
 - Figure out how to snoop the Dolphin/libusb direct access mode
-- Add trigger-clicks (i.e. Gamecube shoulders) and re-add stick-clicks
+- Add trigger-clicks (i.e. Gamecube shoulders)
 - Expose skin.ini-to-json converter in UI somehow
 - Find someone with a Mac to help make/test a package build for it
 - Skins:
