@@ -84,7 +84,8 @@ class StickImage(ButtonImage):
         self.directions = {'up': StickImage.Direction(self),
                            'down': StickImage.Direction(self),
                            'left': StickImage.Direction(self),
-                           'right': StickImage.Direction(self)}
+                           'right': StickImage.Direction(self),
+                           'click': self}
         ButtonImage.__init__(self, screen, background, position, size,
                              image_push, image_stick, margin=self.radius,
                              copy_bg=True)
@@ -161,9 +162,12 @@ class PadImage:
         for stick_cfg in cfg.sticks.itervalues():
             assert isinstance(stick_cfg, configurator.StickConfig)
             image_stick = load_image(stick_cfg.name)
+            image_click = None
+            if stick_cfg.clickable:
+                image_click = load_image(stick_cfg.name + '-click')
             obj = StickImage(self.target, self.background,
                              stick_cfg.position, stick_cfg.size,
-                             stick_cfg.radius, image_stick)
+                             stick_cfg.radius, image_stick, image_click)
             self.sticks[stick_cfg.name] = obj
 
         for trigger_cfg in cfg.triggers.itervalues():
