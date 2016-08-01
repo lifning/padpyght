@@ -107,7 +107,7 @@ class FrameBuffer(pygame.Surface):
         else:
             self._scale_function(self, self._target.get_size(), self._target)
         if delay:
-            self.limit_fps(set_caption=False)
+            self.limit_fps()
         pygame.display.flip()
         self._update_rectangles = []
 

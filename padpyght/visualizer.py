@@ -268,7 +268,6 @@ def main(skin, joy_index):
 
         pad_gfx.draw()
         fb.flip()
-        fb.limit_fps(set_caption=True)
 
 
 if __name__ == '__main__':
